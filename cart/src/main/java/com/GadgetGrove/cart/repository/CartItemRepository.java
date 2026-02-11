@@ -1,5 +1,6 @@
-package com.GadgetGrove.cart;
+package com.GadgetGrove.cart.repository;
 
+import com.GadgetGrove.cart.model.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

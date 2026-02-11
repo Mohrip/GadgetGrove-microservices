@@ -1,9 +1,12 @@
-package com.GadgetGrove.cart;
+package com.GadgetGrove.cart.service;
 
 import com.GadgetGrove.GadgetGrove.product.Product;
 import com.GadgetGrove.GadgetGrove.product.ProductRepository;
 import com.GadgetGrove.GadgetGrove.user.User;
 import com.GadgetGrove.GadgetGrove.user.UserRepository;
+import com.GadgetGrove.cart.model.CartItem;
+import com.GadgetGrove.cart.repository.CartItemRepository;
+import com.GadgetGrove.cart.dto.CartItemrequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.GadgetGrove.cart;
+package com.GadgetGrove.cart.model;
 
 
 import com.GadgetGrove.GadgetGrove.product.Product;

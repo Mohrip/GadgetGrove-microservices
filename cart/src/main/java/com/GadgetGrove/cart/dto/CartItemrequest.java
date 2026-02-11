@@ -1,4 +1,4 @@
-package com.GadgetGrove.cart;
+package com.GadgetGrove.cart.dto;
 
 import lombok.Data;
 

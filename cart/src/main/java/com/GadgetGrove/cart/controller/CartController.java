@@ -2,7 +2,6 @@ package com.GadgetGrove.cart.controller;
 
 import com.GadgetGrove.cart.dto.CartItemResponse;
 import com.GadgetGrove.cart.dto.CartItemrequest;
-import com.GadgetGrove.cart.model.CartItem;
 import com.GadgetGrove.cart.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

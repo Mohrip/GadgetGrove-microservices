@@ -1,8 +1,6 @@
 package com.GadgetGrove.cart.model;
 
 
-//import com.GadgetGrove.GadgetGrove.product.Product;
-//import com.GadgetGrove.GadgetGrove.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,13 +17,7 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "product_id", nullable = false)
-//    private Product product;
+
     private UUID userId;
     private UUID productId;
     private Integer quantity;

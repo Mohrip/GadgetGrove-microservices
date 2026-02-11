@@ -31,7 +31,6 @@ public class CartService {
             throw new RuntimeException("Quantity must be greater than zero");
         }
 
-        // Call Product service to get product details
         ProductResponse product = webClientBuilder.build()
                 .get()
                 .uri(productServiceUrl + "/api/products/{id}", request.getProductId())
@@ -47,7 +46,6 @@ public class CartService {
             throw new RuntimeException("Insufficient stock available");
         }
 
-        // Check if item already exists in cart
         Optional<CartItem> existingItemOpt = cartItemRepository.findByUserIdAndProductId(userId, request.getProductId());
 
         CartItem cartItem;
@@ -78,7 +76,6 @@ public class CartService {
             response.setPrice(item.getPrice());
             response.setCreatedAt(item.getCreatedAt());
 
-            // Optionally fetch product name from product service
             try {
                 ProductResponse product = webClientBuilder.build()
                         .get()

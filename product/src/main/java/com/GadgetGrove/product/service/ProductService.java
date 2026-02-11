@@ -43,7 +43,7 @@ public class ProductService {
 
     public ProductResponse updateProduct(UUID id, ProductRequest productRequest) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
 
         product.setName(productRequest.getName());
         product.setDescription(productRequest.getDescription());

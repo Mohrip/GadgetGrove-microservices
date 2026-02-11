@@ -1,5 +1,6 @@
 package com.GadgetGrove.cart.controller;
 
+import com.GadgetGrove.cart.dto.CartItemResponse;
 import com.GadgetGrove.cart.dto.CartItemrequest;
 import com.GadgetGrove.cart.model.CartItem;
 import com.GadgetGrove.cart.service.CartService;
@@ -25,8 +26,8 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CartItem>> getCart(@RequestParam("userId") UUID userId) {
-        List<CartItem> cartItems = cartService.getCartItemsByUserId(userId);
+    public ResponseEntity<List<CartItemResponse>> getCart(@RequestHeader("User-ID") UUID userId) {
+        List<CartItemResponse> cartItems = cartService.getCartItemsByUserId(userId);
         return ResponseEntity.ok(cartItems);
     }
 
@@ -44,4 +45,9 @@ public class CartController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/clear")
+    public ResponseEntity<Void> clearCart(@RequestHeader("User-ID") UUID userId) {
+        cartService.clearCart(userId);
+        return ResponseEntity.noContent().build();
+    }
 }

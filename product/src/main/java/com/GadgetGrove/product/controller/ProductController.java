@@ -1,5 +1,8 @@
-package com.GadgetGrove.product;
+package com.GadgetGrove.product.controller;
 
+import com.GadgetGrove.product.dto.ProductRequest;
+import com.GadgetGrove.product.dto.ProductResponse;
+import com.GadgetGrove.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

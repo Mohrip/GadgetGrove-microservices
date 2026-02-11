@@ -1,4 +1,4 @@
-package com.GadgetGrove.product;
+package com.GadgetGrove.product.model;
 
 
 import jakarta.persistence.Entity;

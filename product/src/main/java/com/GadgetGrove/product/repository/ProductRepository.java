@@ -1,5 +1,6 @@
-package com.GadgetGrove.product;
+package com.GadgetGrove.product.repository;
 
+import com.GadgetGrove.product.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

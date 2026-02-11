@@ -1,5 +1,9 @@
-package com.GadgetGrove.product;
+package com.GadgetGrove.product.service;
 
+import com.GadgetGrove.product.dto.ProductRequest;
+import com.GadgetGrove.product.dto.ProductResponse;
+import com.GadgetGrove.product.model.Product;
+import com.GadgetGrove.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

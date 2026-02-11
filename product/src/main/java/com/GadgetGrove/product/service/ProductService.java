@@ -76,13 +76,13 @@ public class ProductService {
 
     public ProductResponse getProductById(UUID id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
         return mapToResponse(product);
     }
 
     public void deleteProduct(UUID id) {
         if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Product not found");
+            throw new ProductNotFoundException("Product not found with id: " + id);
         }
         productRepository.deleteById(id);
     }
@@ -110,4 +110,10 @@ private ProductResponse mapToResponse(Product product) {
 }
 
 
+    // Custom exception class
+    public static class ProductNotFoundException extends RuntimeException {
+        public ProductNotFoundException(String message) {
+            super(message);
+        }
+    }
 }

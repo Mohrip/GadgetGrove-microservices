@@ -43,7 +43,6 @@ public class Product {
         this.stockQuantity = stockQuantity;
     }
 
-
     private String category;
     private String ImageUrl;
     private Boolean active = true;

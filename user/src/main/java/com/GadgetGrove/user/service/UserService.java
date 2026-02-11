@@ -1,7 +1,8 @@
 package com.GadgetGrove.user.service;
 
 
-import com.GadgetGrove.GadgetGrove.address.AddressDTO;
+//import com.GadgetGrove.address.AddressDTO;
+import com.GadgetGrove.user.dto.AddressDTO;
 import com.GadgetGrove.user.model.User;
 import com.GadgetGrove.user.dto.UserResponse;
 import com.GadgetGrove.user.repository.UserRepository;

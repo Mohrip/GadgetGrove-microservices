@@ -1,6 +1,6 @@
 package com.GadgetGrove.user.controller;
 
-import com.GadgetGrove.GadgetGrove.user.UserService;
+import com.GadgetGrove.user.service.UserService;
 import com.GadgetGrove.user.model.User;
 import com.GadgetGrove.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;

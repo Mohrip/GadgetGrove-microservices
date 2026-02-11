@@ -1,7 +1,6 @@
 package com.GadgetGrove.user.model;
 
 
-import com.GadgetGrove.user.model.Address;
 import com.GadgetGrove.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

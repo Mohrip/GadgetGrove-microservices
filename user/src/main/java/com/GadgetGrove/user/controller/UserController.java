@@ -31,7 +31,6 @@ public class UserController {
     public ResponseEntity<String> createUser(@RequestBody User user) {
         userService.addUser(user);
         return ResponseEntity.ok("User Added");
-        // return "User Added Succ";
     }
 
     @GetMapping("/users/{id}")

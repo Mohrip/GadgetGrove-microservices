@@ -28,8 +28,6 @@ public class UserService {
                 .map(this::mapToUserResponse)
                 .toList();
 
-      //  return userRepository.findAll();
-        //return userList;
     }
 
     public User getUserById(UUID id) {
@@ -37,8 +35,6 @@ public class UserService {
     }
 
     public void addUser( User user) {
-        //user.setId(nextId++);
-       // userList.add(user);
         userRepository.save(user);
     }
 
@@ -60,8 +56,6 @@ public class UserService {
         userResponse.setEmail(user.getEmail());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setRole(user.getRole());
-        //userResponse.setAddress(user.getAddress());
-       // return userResponse;
 
         if(user.getAddress() != null) {
             AddressDTO addressDTO = new AddressDTO();

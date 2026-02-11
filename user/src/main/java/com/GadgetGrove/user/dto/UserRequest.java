@@ -1,6 +1,5 @@
 package com.GadgetGrove.user.dto;
 
-import com.GadgetGrove.user.dto.AddressDTO;
 import lombok.Data;
 
 import java.util.UUID;

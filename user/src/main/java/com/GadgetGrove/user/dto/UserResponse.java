@@ -1,6 +1,5 @@
 package com.GadgetGrove.user.dto;
 
-import com.GadgetGrove.user.dto.AddressDTO;
 import com.GadgetGrove.user.enums.UserRole;
 import lombok.Data;
 

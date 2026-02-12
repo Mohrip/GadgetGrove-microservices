@@ -3,135 +3,80 @@ services:
     build: ./user
     ports:
       - "8081:8081"
-    env_file:
-      - .env
     depends_on:
-      user-db:
+      postgres:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://user-db:5432/userdb
-      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/userdb
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     restart: on-failure
 
   product:
     build: ./product
     ports:
       - "8082:8082"
-    env_file:
-      - .env
     depends_on:
-      product-db:
+      postgres:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://product-db:5432/productdb
-      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/productdb
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     restart: on-failure
 
   order:
     build: ./order
     ports:
       - "8083:8083"
-    env_file:
-      - .env
     depends_on:
-      order-db:
+      postgres:
         condition: service_healthy
       product:
         condition: service_started
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://order-db:5432/orderdb
-      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - PRODUCT_SERVICE_URL=http://product:8082
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/orderdb
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      PRODUCT_SERVICE_URL: http://product:8082
     restart: on-failure
 
   cart:
     build: ./cart
     ports:
       - "8084:8084"
-    env_file:
-      - .env
     depends_on:
-      cart-db:
+      postgres:
         condition: service_healthy
       product:
         condition: service_started
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://cart-db:5432/cartdb
-      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - PRODUCT_SERVICE_URL=http://product:8082
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cartdb
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      PRODUCT_SERVICE_URL: http://product:8082
     restart: on-failure
 
-  user-db:
+  postgres:
     image: postgres:15-alpine
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
-      - POSTGRES_DB=userdb
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - user_postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d userdb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: postgres
 
-  product-db:
-    image: postgres:15-alpine
-    ports:
-      - "5434:5432"
-    environment:
-      - POSTGRES_DB=productdb
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - product_postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d productdb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  order-db:
-    image: postgres:15-alpine
-    ports:
-      - "5435:5432"
-    environment:
-      - POSTGRES_DB=orderdb
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - order_postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d orderdb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
 
-  cart-db:
-    image: postgres:15-alpine
-    ports:
-      - "5436:5432"
-    environment:
-      - POSTGRES_DB=cartdb
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - cart_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d cartdb"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -141,23 +86,15 @@ services:
     image: dpage/pgadmin4:latest
     ports:
       - "5050:80"
-    env_file:
-      - .env
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     depends_on:
-      - user-db
-      - product-db
-      - order-db
-      - cart-db
+      - postgres
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     restart: unless-stopped
 
 volumes:
-  user_postgres_data:
-  product_postgres_data:
-  order_postgres_data:
-  cart_postgres_data:
+  postgres_data:
   pgadmin_data:

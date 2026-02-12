@@ -49,32 +49,14 @@ buildNumber.properties
 *.ipr
 out/
 
-# Eclipse/STS
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-# NetBeans
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-
-# VS Code
-.vscode/
-
-# Mac
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
+# Environment variables - DO NOT COMMIT
+.env
+.env.example
+/.env
+/.env.example
+/.env/
+.env/
+init.sql
+init.sql/
+.init.sql/
+.init.sql

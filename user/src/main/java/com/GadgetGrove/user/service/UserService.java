@@ -21,6 +21,7 @@ public class UserService {
 
     private List<User> userList = new ArrayList<>();
     private Long nextId = 1L;
+    private String baseUrl = "";
 
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();

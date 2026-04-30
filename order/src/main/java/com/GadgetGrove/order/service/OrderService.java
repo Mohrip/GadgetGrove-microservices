@@ -23,6 +23,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
 
+    // here we injected the value from: application-dev.prop
     @Value("${product.service.url:http://localhost:8082}")
     private String productServiceUrl;
 

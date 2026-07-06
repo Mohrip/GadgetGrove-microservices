@@ -3,6 +3,7 @@ package com.GadgetGrove.cart.service;
 import com.GadgetGrove.cart.dto.CartItemResponse;
 import com.GadgetGrove.cart.dto.CartItemrequest;
 import com.GadgetGrove.cart.dto.ProductResponse;
+import com.GadgetGrove.cart.mapper.CartItemMapper;
 import com.GadgetGrove.cart.model.CartItem;
 import com.GadgetGrove.cart.repository.CartItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class CartService {
 
     private final CartItemRepository cartItemRepository;
+    private final CartItemMapper cartItemMapper;
     private final WebClient.Builder webClientBuilder;
 
     @Value("${product.service.url}")
@@ -68,13 +70,7 @@ public class CartService {
         List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
 
         return cartItems.stream().map(item -> {
-            CartItemResponse response = new CartItemResponse();
-            response.setId(item.getId());
-            response.setUserId(item.getUserId());
-            response.setProductId(item.getProductId());
-            response.setQuantity(item.getQuantity());
-            response.setPrice(item.getPrice());
-            response.setCreatedAt(item.getCreatedAt());
+            CartItemResponse response = cartItemMapper.toResponse(item);
 
             try {
                 ProductResponse product = webClientBuilder.build()

@@ -2,6 +2,7 @@ package com.GadgetGrove.order.service;
 
 import com.GadgetGrove.order.dto.*;
 import com.GadgetGrove.order.enums.OrderStatus;
+import com.GadgetGrove.order.mapper.OrderMapper;
 import com.GadgetGrove.order.model.Order;
 import com.GadgetGrove.order.model.OrderItem;
 import com.GadgetGrove.order.repository.OrderRepository;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderMapper orderMapper;
     private final WebClient.Builder webClientBuilder;
 
     // here we injected the value from: application-dev.prop
@@ -54,12 +56,7 @@ public class OrderService {
                         throw new RuntimeException("Insufficient stock for product: " + product.getName());
                     }
 
-                    OrderItem orderItem = new OrderItem();
-                    orderItem.setOrder(order);
-                    orderItem.setProductId(product.getId().toString());
-                    orderItem.setQuantity(itemRequest.getQuantity());
-                    orderItem.setPrice(product.getPrice());
-                    return orderItem;
+                    return orderMapper.toOrderItem(order, product, itemRequest.getQuantity());
                 }).collect(Collectors.toList());
 
         order.setOrderItems(orderItems);
@@ -69,28 +66,6 @@ public class OrderService {
         order.setTotalAmount(totalAmount);
 
         Order savedOrder = orderRepository.save(order);
-        return mapToResponse(savedOrder);
-    }
-
-    private OrderResponse mapToResponse(Order order) {
-        OrderResponse response = new OrderResponse();
-        response.setId(order.getId());
-        response.setUserId(order.getUserId());
-        response.setTotalAmount(order.getTotalAmount());
-        response.setStatus(order.getStatus());
-        response.setShippingAddress(order.getShippingAddress());
-        response.setCreatedAt(order.getCreatedAt());
-
-        List<OrderItemResponse> itemResponses = order.getOrderItems().stream()
-                .map(item -> {
-                    OrderItemResponse itemResponse = new OrderItemResponse();
-                    itemResponse.setProductId(UUID.fromString(item.getProductId()));
-                    itemResponse.setQuantity(item.getQuantity());
-                    itemResponse.setPrice(item.getPrice());
-                    return itemResponse;
-                }).collect(Collectors.toList());
-
-        response.setOrderItems(itemResponses);
-        return response;
+        return orderMapper.toResponse(savedOrder);
     }
 }
